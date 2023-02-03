@@ -4,34 +4,28 @@ import { nanoid } from 'nanoid';
 
 export default function App() {
   const [count, setCount] = useState(0)
-  const [todoList, setTodoList] = useState()
+  const [todoList, setTodoList] = useState([])
 
   /* axios.get('http://localhost:8000/api/todos')
   .then(res => {data = res.data}) */
 
   useEffect(() => {
-    async function getQuestion() {
-      const res = await fetch("http://localhost:8000/api/todos")
-      const data = await res.json()
-      setTodoList(data)
-      console.log(data)
-    }
+    axios.get("http://localhost:8000/api/todos/")
+    .then(res => setTodoList(res.data))
+  
+    //console.log(todoList)
     
   },[count])
 
-  
+  const todoElements = todoList.map(item => (
+    <p key={nanoid()}>{item}</p>
+  ))
 
-  /* const resultElements = todoList.map(item => {
-    return (
-      <p key={nanoid()}>{item}</p>
-    )
-  }) */
+  //to read: https://www.g2i.co/blog/understanding-the-objects-are-not-valid-as-a-react-child-error-in-react
 
   return (
     <div className="App">
-      <p>teste</p>
-      {/* {resultElements} */}
-      {todoList}
+      {todoElements}
     </div>
   )
 }
