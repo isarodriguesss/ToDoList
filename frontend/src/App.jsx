@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { nanoid } from 'nanoid';
+import Modal from './CustomModal'
 
 export default function App() {
   const [count, setCount] = useState(false)
   const [todoList, setTodoList] = useState([])
-
-  const [formData, setFormData] = useState(
-    {
-      'completed': true
-    }
-  )
+  const [toggle, setToggle] = useState(false)
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/todos/")
@@ -29,7 +25,6 @@ export default function App() {
     setTodoList(updateTodoList)
     const element = updateTodoList.find(item => item.id == id)
     axios.put(`http://localhost:8000/api/todos/${id}/`, element)
-    //axios.post("http://localhost:8000/api/todos/", element)
   }
 
   function handleSubmit(event) {
@@ -39,12 +34,18 @@ export default function App() {
 
   function handleDelete(id) {
     axios.delete(`http://localhost:8000/api/todos/${id}/`)
-    setCount(!count)
+    //setCount(!count) find out how to refresh api when deleting an element
   }
 
-  /* function handleCreate {
+  function handleCreate() {
+    const item = {title: "teste2", description: "teste2", completed: false}
+    setTodoList([...todoList, item])
+    axios.post("http://localhost:8000/api/todos/", item)
+  }
 
-  } */
+  function handleToggle() {
+    setToggle(!toggle)
+  }
 
   const todoElements = todoList.map(item => (
     <div key={nanoid()}>
@@ -74,11 +75,15 @@ export default function App() {
     
   ))
 
-  //to read: https://www.g2i.co/blog/understanding-the-objects-are-not-valid-as-a-react-child-error-in-react
-
   return (
     <div className="App">
       {todoElements}
+      <button onClick={handleCreate}>New</button>
+      <button onClick={handleToggle}>Open Modal</button>
+      <Modal 
+        toggle={toggle}
+        handleToggle={handleToggle}
+      />
     </div>
   )
 }
