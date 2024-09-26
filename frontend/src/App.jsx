@@ -66,9 +66,8 @@ export default function App() {
           id='completed'
           onChange={(e) => handleUpdate(e, item.id)}
           name='completed'
-        />
-        <label htmlFor='completed'> Task completed?</label>
-        <button>Submit</button>
+          />
+          <label htmlFor='completed'> Task completed??</label>
       </form>
       <button onClick={() => handleDelete(item.id)}>Delete</button>
     </div>
