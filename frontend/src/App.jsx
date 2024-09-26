@@ -39,7 +39,7 @@ export default function App() {
           onChange={(e) => handleIsCompleted(e, item.id)}
           name='completed'
           />
-          <label htmlFor='completed'> Task completed?</label>
+          <label htmlFor='completed'> Task completed??</label>
       </form>
     </div>
     
